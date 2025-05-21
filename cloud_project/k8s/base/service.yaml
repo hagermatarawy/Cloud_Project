@@ -106,4 +106,4 @@ spec:
     protocol: TCP
     name: mssql
   selector:
-    app: appointment-db 
+    app: appointment-db

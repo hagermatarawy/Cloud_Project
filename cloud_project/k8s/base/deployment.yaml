@@ -2,8 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: healthcare-app
+  namespace: healthcare-dev
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: healthcare-app
@@ -15,15 +16,16 @@ spec:
       containers:
       - name: healthcare-app
         image: healthcare-app:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
         resources:
           requests:
-            memory: "256Mi"
-            cpu: "200m"
+            memory: "128Mi"
+            cpu: "100m"
           limits:
-            memory: "512Mi"
-            cpu: "500m"
+            memory: "256Mi"
+            cpu: "250m"
         livenessProbe:
           httpGet:
             path: /health
@@ -59,6 +61,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: healthcare-db
+  namespace: healthcare-dev
 spec:
   replicas: 1
   selector:
@@ -76,11 +79,11 @@ spec:
         - containerPort: 1433
         resources:
           requests:
-            memory: "1Gi"
-            cpu: "500m"
-          limits:
             memory: "2Gi"
             cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
         env:
         - name: ACCEPT_EULA
           value: "Y"
@@ -101,8 +104,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: patient-management-api
+  namespace: healthcare-dev
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: patient-management-api
@@ -119,15 +123,16 @@ spec:
       containers:
       - name: patient-management-api
         image: patient-management-api:latest
+        imagePullPolicy: Never  
         ports:
         - containerPort: 80
         resources:
           limits:
-            cpu: "1.0"
-            memory: "1Gi"
+            cpu: "250m"
+            memory: "256Mi"
           requests:
-            cpu: "0.5"
-            memory: "512Mi"
+            cpu: "100m"
+            memory: "128Mi"
         livenessProbe:
           httpGet:
             path: /health
@@ -150,8 +155,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ehr-api
+  namespace: healthcare-dev
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: ehr-api
@@ -168,15 +174,16 @@ spec:
       containers:
       - name: ehr-api
         image: ehr-api:latest
+        imagePullPolicy: Never  
         ports:
         - containerPort: 80
         resources:
           limits:
-            cpu: "1.0"
-            memory: "1Gi"
+            cpu: "250m"
+            memory: "256Mi"
           requests:
-            cpu: "0.5"
-            memory: "512Mi"
+            cpu: "100m"
+            memory: "128Mi"
         livenessProbe:
           httpGet:
             path: /health
@@ -199,8 +206,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: appointment-scheduling-api
+  namespace: healthcare-dev
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: appointment-scheduling-api
@@ -217,15 +225,16 @@ spec:
       containers:
       - name: appointment-scheduling-api
         image: appointment-scheduling-api:latest
+        imagePullPolicy: Never  
         ports:
         - containerPort: 80
         resources:
           limits:
-            cpu: "1.0"
-            memory: "1Gi"
+            cpu: "250m"
+            memory: "256Mi"
           requests:
-            cpu: "0.5"
-            memory: "512Mi"
+            cpu: "100m"
+            memory: "128Mi"
         livenessProbe:
           httpGet:
             path: /health
@@ -242,4 +251,4 @@ spec:
         - configMapRef:
             name: appointment-scheduling-config
         - secretRef:
-            name: appointment-scheduling-secrets 
+            name: appointment-scheduling-secrets
