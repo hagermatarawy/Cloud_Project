@@ -19,7 +19,6 @@ fi
 
 ENV=$1
 NAMESPACE="healthcare-$ENV"
-BASE_DIR="./k8s/base"
 OVERLAYS_DIR="./k8s/overlays/$ENV"
 
 # Validate environment
@@ -99,7 +98,7 @@ if [ "$ENV" == "dev" ]; then
     echo "kubectl port-forward svc/healthcare-app 8080:80 -n $NAMESPACE"
     echo "Then open http://localhost:8080"
 elif [ "$ENV" == "staging" ]; then
-    echo "Staging URL: http://staging.healthcare.example.com"
+    echo "Staging URL: https://staging.healthcare.example.com"
 elif [ "$ENV" == "prod" ]; then
     echo "Production URL: https://healthcare.example.com"
 fi

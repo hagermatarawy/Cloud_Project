@@ -1,29 +1,29 @@
 version: '3.8'
 
 services:
-  healthcare-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: development
-    image: healthcare-app:dev
-    ports:
-      - "8080:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=healthcare-db;Database=HealthcareDB;User Id=sa;Password=${DB_PASSWORD}
-    depends_on:
-      - healthcare-db
-    volumes:
-      - .:/app
-      - /app/node_modules
-    networks:
-      - healthcare-network
+  # healthcare-app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #     target: development
+  #   image: healthcare-app:dev
+  #   ports:
+  #     - "8080:80"
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - ASPNETCORE_URLS=http://+:80
+  #     - ConnectionStrings__DefaultConnection=Server=healthcare-db;Database=HealthcareDB;User Id=sa;Password=${DB_PASSWORD}
+  #   depends_on:
+  #     - healthcare-db
+  #   volumes:
+  #     - .:/app
+  #     - /app/node_modules
+  #   networks:
+  #     - healthcare-network
 
   patient-management-api:
     build:
-      context: ./PatientManagement
+      context: ./PatientManagement.API
       dockerfile: Dockerfile
       target: development
     image: patient-management-api:dev
@@ -36,13 +36,13 @@ services:
     depends_on:
       - patient-db
     volumes:
-      - ./PatientManagement:/app
+      - ./PatientManagement.API:/app
     networks:
       - healthcare-network
 
   ehr-api:
     build:
-      context: ./EHR
+      context: ./EHR.API
       dockerfile: Dockerfile
       target: development
     image: ehr-api:dev
@@ -55,13 +55,13 @@ services:
     depends_on:
       - ehr-db
     volumes:
-      - ./EHR:/app
+      - ./EHR.API:/app
     networks:
       - healthcare-network
 
   appointment-scheduling-api:
     build:
-      context: ./AppointmentScheduling
+      context: ./AppointmentScheduling.API
       dockerfile: Dockerfile
       target: development
     image: appointment-scheduling-api:dev
@@ -74,7 +74,7 @@ services:
     depends_on:
       - appointment-db
     volumes:
-      - ./AppointmentScheduling:/app
+      - ./AppointmentScheduling.API:/app
     networks:
       - healthcare-network
 

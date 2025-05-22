@@ -10,6 +10,7 @@ spec:
     targetPort: 80
     protocol: TCP
   type: ClusterIP
+
 ---
 apiVersion: v1
 kind: Service
@@ -23,6 +24,7 @@ spec:
     targetPort: 1433
     protocol: TCP
   type: ClusterIP
+
 ---
 apiVersion: v1
 kind: Service
@@ -37,6 +39,7 @@ spec:
     name: http
   selector:
     app: patient-management-api
+
 ---
 apiVersion: v1
 kind: Service
@@ -51,6 +54,7 @@ spec:
     name: http
   selector:
     app: ehr-api
+
 ---
 apiVersion: v1
 kind: Service
@@ -65,45 +69,3 @@ spec:
     name: http
   selector:
     app: appointment-scheduling-api
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: patient-db
-spec:
-  type: ClusterIP
-  ports:
-  - port: 1433
-    targetPort: 1433
-    protocol: TCP
-    name: mssql
-  selector:
-    app: patient-db
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: ehr-db
-spec:
-  type: ClusterIP
-  ports:
-  - port: 1433
-    targetPort: 1433
-    protocol: TCP
-    name: mssql
-  selector:
-    app: ehr-db
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: appointment-db
-spec:
-  type: ClusterIP
-  ports:
-  - port: 1433
-    targetPort: 1433
-    protocol: TCP
-    name: mssql
-  selector:
-    app: appointment-db

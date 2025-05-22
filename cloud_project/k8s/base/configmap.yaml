@@ -4,37 +4,36 @@ metadata:
   name: healthcare-config
 data:
   environment: "Development"
-  logging__LogLevel__Default: "Information"
-  logging__LogLevel__Microsoft: "Warning"
+  logging_LogLevel_Default: "Information"
+  logging_LogLevel_Microsoft: "Warning"
   AllowedHosts: "*"
-  CORS__AllowedOrigins: "http://localhost:3000,https://healthcare.example.com"
+  CORS__AllowedOrigins: "http://localhost:3000"
   CORS__AllowedMethods: "GET,POST,PUT,DELETE,OPTIONS"
   CORS__AllowedHeaders: "Content-Type,Authorization"
   CORS__AllowCredentials: "true"
+  ASPNETCORE_URLS: "http://+:80"
+  DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "false"
+
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: patient-management-config
 data:
-  ASPNETCORE_ENVIRONMENT: "Production"
-  ASPNETCORE_URLS: "http://+:80"
-  DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "false"
+  ConnectionStrings__Patients: "Server=healthcare-db;Database=Patients;User Id=sa;Password=${SA_PASSWORD}"
+
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ehr-config
 data:
-  ASPNETCORE_ENVIRONMENT: "Production"
-  ASPNETCORE_URLS: "http://+:80"
-  DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "false"
+  ConnectionStrings__EHR: "Server=healthcare-db;Database=EHR;User Id=sa;Password=${SA_PASSWORD}"
+
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: appointment-scheduling-config
 data:
-  ASPNETCORE_ENVIRONMENT: "Production"
-  ASPNETCORE_URLS: "http://+:80"
-  DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "false"
+  ConnectionStrings__Appointments: "Server=healthcare-db;Database=Appointments;User Id=sa;Password=${SA_PASSWORD}"

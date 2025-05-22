@@ -7,47 +7,42 @@ resources:
 - ../../base
 
 patches:
-- target:
-    kind: ConfigMap
-    name: healthcare-config
-  patch: |-
-    - op: replace
-      path: /data/environment
-      value: "Development"
-    - op: replace
-      path: /data/logging__LogLevel__Default
-      value: "Debug"
-    - op: replace
-      path: /data/CORS__AllowedOrigins
-      value: "http://localhost:3000"
+  - target:
+      kind: Deployment
+      name: healthcare-app
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: registry.example.com/healthcare-app:dev
 
-- target:
-    kind: Deployment
-    name: healthcare-app
-  patch: |-
-    - op: replace
-      path: /spec/replicas
-      value: 1
-    - op: replace
-      path: /spec/template/spec/containers/0/resources/requests/memory
-      value: "128Mi"
-    - op: replace
-      path: /spec/template/spec/containers/0/resources/requests/cpu
-      value: "100m"
-    - op: replace
-      path: /spec/template/spec/containers/0/resources/limits/memory
-      value: "256Mi"
-    - op: replace
-      path: /spec/template/spec/containers/0/resources/limits/cpu
-      value: "200m"
+  - target:
+      kind: Deployment
+        name: patient-management-api
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: registry.example.com/patient-management-api:dev
 
-- target:
-    kind: HorizontalPodAutoscaler
-    name: healthcare-app-hpa
-  patch: |-
-    - op: replace
-      path: /spec/minReplicas
-      value: 1
-    - op: replace
-      path: /spec/maxReplicas
-      value: 3 
+  - target:
+      kind: Deployment
+      name: ehr-api
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: registry.example.com/ehr-api:dev
+
+  - target:
+      kind: Deployment
+      name: appointment-scheduling-api
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: registry.example.com/appointment-scheduling-api:dev
+
+  - target:
+      kind: ConfigMap
+      name: healthcare-config
+    patch: |-
+      - op: replace
+        path: /data/CORS__AllowedOrigins
+        value: "http://localhost:3000,http://localhost:8080"
