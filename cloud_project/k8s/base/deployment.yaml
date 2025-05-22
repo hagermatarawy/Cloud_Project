@@ -31,8 +31,8 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "100m"
-
-# Database (Single shared instance)
+---
+# Database (MSSQL)
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -76,7 +76,7 @@ spec:
       - name: mssql-data
         persistentVolumeClaim:
           claimName: mssql-pvc
-
+---
 # Patient Management API
 apiVersion: apps/v1
 kind: Deployment
@@ -110,7 +110,8 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "100m"
-
+---
+# EHR API
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -161,7 +162,7 @@ spec:
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
-
+---
 # Appointment Scheduling API
 apiVersion: apps/v1
 kind: Deployment
