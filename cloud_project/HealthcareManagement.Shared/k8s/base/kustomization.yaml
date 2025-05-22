@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+commonLabels:
+  app.kubernetes.io/part-of: healthcare-system
+  app.kubernetes.io/managed-by: kustomize
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - configmap.yaml
+  - secrets.yaml
+  - persistentvolumeclaim.yaml
+  - ingress.yaml
+  - hpa.yaml
