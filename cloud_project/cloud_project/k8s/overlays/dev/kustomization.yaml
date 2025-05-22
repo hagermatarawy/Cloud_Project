@@ -1,0 +1,48 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: healthcare-dev
+
+resources:
+- ../../base
+
+patches:
+  - target:
+      kind: Deployment
+      name: healthcare-app
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: registry.example.com/healthcare-app:dev
+
+  - target:
+      kind: Deployment
+        name: patient-management-api
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: registry.example.com/patient-management-api:dev
+
+  - target:
+      kind: Deployment
+      name: ehr-api
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: registry.example.com/ehr-api:dev
+
+  - target:
+      kind: Deployment
+      name: appointment-scheduling-api
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: registry.example.com/appointment-scheduling-api:dev
+
+  - target:
+      kind: ConfigMap
+      name: healthcare-config
+    patch: |-
+      - op: replace
+        path: /data/CORS__AllowedOrigins
+        value: "http://localhost:3000,http://localhost:8080"
